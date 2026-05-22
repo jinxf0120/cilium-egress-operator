@@ -335,54 +335,11 @@ make clean          # Remove build artifacts
 
 ---
 
-## Project Structure
-
-```
-.
-├── main.go                          # Entry point
-├── api/v1alpha1/                    # CRD types
-│   ├── egressgateway_types.go
-│   ├── groupversion_info.go
-│   └── zz_generated.deepcopy.go
-├── internal/
-│   ├── controller/                  # EgressGateway reconciler
-│   │   └── egressgateway_controller.go
-│   ├── gateway/                     # Gateway selection logic
-│   │   └── selector.go
-│   └── metrics/                     # Prometheus metrics
-│       └── metrics.go
-├── deploy/
-│   ├── charts/cilium-egress-operator/ # Helm chart
-│   │   ├── Chart.yaml
-│   │   ├── values.yaml
-│   │   ├── crds/
-│   │   └── templates/
-│   └── manifest/                    # Plain Kubernetes manifests
-│       ├── rbac.yaml
-│       ├── deployment.yaml
-│       ├── service.yaml
-│       └── pdb.yaml
-├── config/
-│   └── crd/                         # CRD YAML manifests
-│       └── egressgateway.yaml
-├── docs/                            # Design & observability specs
-│   ├── SPEC.md
-│   ├── OBS.md
-│   └── USAGE.md
-├── Makefile
-└── Dockerfile
-```
-
----
-
 ## Docs
 
 | Document | Description |
 |----------|-------------|
 | [README.md](README.md) | Project overview |
-| [AGENTS.md](AGENTS.md) | Agent instructions and project goals |
-| [SPEC.md](docs/SPEC.md) | System design specification |
-| [OBS.md](docs/OBS.md) | Observability specification |
 | [USAGE.md](docs/USAGE.md) | Detailed usage guide with examples |
 
 ---
