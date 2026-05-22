@@ -1,0 +1,89 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: egressgateways.egress.cilium.io
+spec:
+  group: egress.cilium.io
+  names:
+    kind: EgressGateway
+    listKind: EgressGatewayList
+    plural: egressgateways
+    singular: egressgateway
+    shortNames:
+      - egw
+  scope: Cluster
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              type: object
+              required:
+                - leaseName
+                - leaseNamespace
+                - nodeLabelKey
+              properties:
+                leaseName:
+                  type: string
+                  description: Name of the Kubernetes Lease to watch
+                leaseNamespace:
+                  type: string
+                  description: Namespace of the Kubernetes Lease
+                nodeLabelKey:
+                  type: string
+                  description: Label key to set on the gateway node
+                nodeLabelValue:
+                  type: string
+                  description: Label value to set on the gateway node (defaults to "true")
+                candidates:
+                  type: array
+                  items:
+                    type: string
+                  description: List of candidate node names. When set, gateway is only assigned to nodes in this list; if leader is not a candidate, fallbackCandidate is used
+                fallbackCandidate:
+                  type: string
+                  description: Fallback node when leader is not in the candidates list
+                debounceDuration:
+                  type: string
+                  description: Minimum time between gateway switches (e.g. "30s")
+                requeueInterval:
+                  type: string
+                  description: Interval for retrying on reconcile failure (e.g. "5s", defaults to "5s")
+            status:
+              type: object
+              properties:
+                currentGatewayNode:
+                  type: string
+                desiredGatewayNode:
+                  type: string
+                desiredSince:
+                  type: string
+                  format: date-time
+                lastSwitchTime:
+                  type: string
+                  format: date-time
+                observedGeneration:
+                  type: integer
+                  format: int64
+      additionalPrinterColumns:
+        - name: Current
+          type: string
+          jsonPath: .status.currentGatewayNode
+        - name: Desired
+          type: string
+          jsonPath: .status.desiredGatewayNode
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
