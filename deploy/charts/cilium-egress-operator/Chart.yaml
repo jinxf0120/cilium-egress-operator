@@ -1,0 +1,15 @@
+apiVersion: v2
+name: cilium-egress-operator
+description: Automatic failover for Cilium Egress Gateway (OSS) based on kube-vip leader election
+type: application
+version: 0.1.0
+appVersion: v0.1.0
+keywords:
+  - cilium
+  - egress
+  - gateway
+  - lease
+  - failover
+home: https://github.com/jinxf0120/cilium-egress-operator
+maintainers:
+  - name: cilium-egress-operator

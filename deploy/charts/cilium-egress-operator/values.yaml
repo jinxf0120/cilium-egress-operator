@@ -1,0 +1,100 @@
+replicaCount: 3
+
+image:
+  repository: cilium-egress-operator
+  pullPolicy: IfNotPresent
+  tag: v0.2.0
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  name: ""
+
+rbac:
+  create: true
+
+leaderElection:
+  enabled: true
+  leaseID: cilium-egress-operator.leader
+
+metrics:
+  bindAddress: ":8080"
+  service:
+    enabled: true
+    type: ClusterIP
+    port: 8080
+    annotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "8080"
+    labels: {}
+
+healthProbe:
+  bindAddress: ":8081"
+
+serviceMonitor:
+  enabled: true
+  interval: 15s
+  scrapeTimeout: 10s
+  labels: {}
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 64Mi
+  limits:
+    cpu: 500m
+    memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+topologySpreadConstraints: []
+
+podAnnotations: {}
+
+podLabels: {}
+
+priorityClassName: ""
+
+extraArgs: []
+
+extraEnv: []
+
+extraVolumes: []
+
+extraVolumeMounts: []
+
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: health
+  initialDelaySeconds: 15
+  periodSeconds: 20
+
+readinessProbe:
+  httpGet:
+    path: /readyz
+    port: health
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 65532
+  runAsGroup: 65532
+
+podSecurityContext:
+  fsGroup: 65532
+
+networkPolicy:
+  enabled: false
