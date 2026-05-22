@@ -1,0 +1,12 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: cilium-egress-operator
+  namespace: kube-system
+  labels:
+    app: cilium-egress-operator
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: cilium-egress-operator
