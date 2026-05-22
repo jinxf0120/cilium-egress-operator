@@ -10,6 +10,7 @@ require (
 	sigs.k8s.io/controller-runtime v0.20.1
 )
 
+
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
