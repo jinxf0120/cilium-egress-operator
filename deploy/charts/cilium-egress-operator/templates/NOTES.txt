@@ -1,0 +1,32 @@
+Cilium Egress Operator has been installed!
+
+Operator:    {{ include "cilium-egress-operator.fullname" . }}
+Namespace:   {{ .Release.Namespace }}
+Replicas:    {{ .Values.replicaCount }}
+Leader Election: {{ .Values.leaderElection.enabled }}
+
+Get operator status:
+
+  kubectl get deployment {{ include "cilium-egress-operator.fullname" . }} -n {{ .Release.Namespace }}
+
+View egress gateway:
+
+  kubectl get egw
+
+Check metrics:
+
+  kubectl port-forward svc/{{ include "cilium-egress-operator.fullname" . }}-metrics {{ .Values.metrics.service.port }}:{{ .Values.metrics.service.port }} -n {{ .Release.Namespace }}
+
+Create an EgressGateway example:
+
+  cat <<EOF | kubectl apply -f -
+  apiVersion: egress.cilium.io/v1alpha1
+  kind: EgressGateway
+  metadata:
+    name: egress-gateway
+  spec:
+    leaseName: plndr-svcs-lock
+    leaseNamespace: kube-system
+    nodeLabelKey: egress.cilium.io/gateway
+    debounceDuration: "30s"
+  EOF
