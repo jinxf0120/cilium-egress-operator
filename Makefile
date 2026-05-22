@@ -1,3 +1,4 @@
+#makefile
 .PHONY: build run test lint clean docker helm-lint helm-template helm-install helm-uninstall helm-upgrade
 
 GO ?= go
